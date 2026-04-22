@@ -1,0 +1,63 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+
+  application:
+    name: aicams-backend
+
+  # Database Configuration (PostgreSQL)
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/aicams_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:}
+    driver-class-name: org.postgresql.Driver
+
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  main:
+    allow-bean-definition-overriding: true
+
+  # Google OAuth2 Configuration
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:}
+            client-secret: ${GOOGLE_CLIENT_SECRET:}
+            scope:
+              - email
+              - profile
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+logging:
+  level:
+    com.fpt.aicams: DEBUG
+    org.springframework.web: INFO
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:}
+  expiration: 86400000
+
+# Google OAuth2 Token Verification
+google:
+  client-id: ${GOOGLE_CLIENT_ID:}
